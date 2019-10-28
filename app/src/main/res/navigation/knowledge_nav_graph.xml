@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/knowledge"
+    app:startDestination="@id/knowledgeFragment">
+
+    <fragment
+        android:id="@+id/knowledgeFragment"
+        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.KnowledgeFragment"
+        android:label="KnowledgeFragment"
+        tools:layout="@layout/fragment_knowledge">
+        <action
+            android:id="@+id/action_knowledgeFragment_to_listKnowledgeFragment"
+            app:destination="@id/listKnowledgeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listKnowledgeFragment"
+        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.ListKnowledgeFragment"
+        android:label="ListKnowledgeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_listKnowledgeFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.fr.wanandroid.main.ui.main.fragment.WebViewFragment"
+        android:label="WebViewFragment" />
+</navigation>

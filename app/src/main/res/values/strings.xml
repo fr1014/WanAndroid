@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">WanAndroid</string>
+    <string name="menu_home">首页</string>
+    <string name="menu_project">项目</string>
+    <string name="menu_chapter">公众号</string>
+    <string name="title_activity_base">BaseActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_knowledge">知识体系</string>
+    <string name="like">添加收藏</string>
+    <string name="time">时间</string>
+    <string name="author">作者</string>
+    <string name="kinds">分类</string>
+    <string name="tv_clicked">可点击</string>
+    <string name="tv_detail">详情</string>
+</resources>

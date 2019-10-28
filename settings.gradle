@@ -1,0 +1,2 @@
+include ':app', ':mymvvm', ':myrecyclerview'
+rootProject.name='WanAndroid'
