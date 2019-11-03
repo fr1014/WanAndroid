@@ -31,9 +31,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 binding:itemBinding="@{viewModel.itemBinding}"
                 binding:items="@{viewModel.itemArticles}"
-                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </FrameLayout>

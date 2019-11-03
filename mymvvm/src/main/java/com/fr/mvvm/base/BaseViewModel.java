@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import com.fr.mvvm.bus.event.SingleLiveEvent;
 import com.trello.rxlifecycle2.LifecycleProvider;
@@ -36,7 +37,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     private CompositeDisposable mCompositeDisposable;
 
     public BaseViewModel(@NonNull Application application) {
-        super(application);
+        this(application,null);
     }
 
     public BaseViewModel(@NonNull Application application, M model) {

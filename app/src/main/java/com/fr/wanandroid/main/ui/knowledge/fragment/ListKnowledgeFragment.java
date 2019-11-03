@@ -11,13 +11,13 @@ import com.fr.mvvm.base.BaseFragment;
 import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.app.ViewModelFactory;
-import com.fr.wanandroid.databinding.FragmentKnowledgeArticleBinding;
+import com.fr.wanandroid.databinding.FragmentKnowledgeListBinding;
 import com.fr.wanandroid.main.entity.ChapterBean;
 import com.fr.wanandroid.main.ui.knowledge.vm.KnowledgeViewModel;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 
-public class ListKnowledgeFragment extends BaseFragment<FragmentKnowledgeArticleBinding, KnowledgeViewModel> {
+public class ListKnowledgeFragment extends BaseFragment<FragmentKnowledgeListBinding, KnowledgeViewModel> {
 
     private ChapterBean bean;
 
@@ -31,7 +31,7 @@ public class ListKnowledgeFragment extends BaseFragment<FragmentKnowledgeArticle
 
     @Override
     protected int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return R.layout.fragment_knowledge_article;
+        return R.layout.fragment_knowledge_list;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ListKnowledgeFragment extends BaseFragment<FragmentKnowledgeArticle
     public void initData() {
         binding.setAdapter(new BindingRecyclerViewAdapter());
         if (bean != null) {
-            viewModel.knowledgeListGet(bean.getChildren().get(0).getId());
+            viewModel.getListKnowledge(bean.getId());
         }
     }
 

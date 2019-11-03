@@ -1,6 +1,7 @@
 package com.fr.mvvm.base;
 
 import android.os.Bundle;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;

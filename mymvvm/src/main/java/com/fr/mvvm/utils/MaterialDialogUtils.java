@@ -1,6 +1,5 @@
 package com.fr.mvvm.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.KeyEvent;

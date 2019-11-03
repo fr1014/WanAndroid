@@ -14,6 +14,7 @@ import com.fr.mvvm.binding.command.BindingConsumer;
 import com.fr.mvvm.bus.event.SingleLiveEvent;
 import com.fr.mvvm.utils.RxUtils;
 import com.fr.mvvm.utils.ToastUtils;
+import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.http.WanResponse;
 import com.fr.wanandroid.main.entity.ArticleBean;
@@ -28,6 +29,9 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
+import static com.fr.wanandroid.main.ui.Constants.TYPE_LOAD_MORE;
+import static com.fr.wanandroid.main.ui.Constants.TYPE_REFRESH;
+
 /**
  * 创建时间：2019/10/12
  * 作者：范瑞
@@ -36,13 +40,7 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
 public class HomeViewModel extends BaseViewModel<ModelRepository> {
 
     private Boolean LOAD_FIRST = true;
-    public static final int TYPE_REFRESH = 1;
-    public static final int TYPE_LOAD_MORE = 2;
     private int page = 0;
-
-    public HomeViewModel(@NonNull Application application, ModelRepository repository) {
-        super(application, repository);
-    }
 
     //界面发生改变的观察者
     public UIChangeObservable uc = new UIChangeObservable();
@@ -52,9 +50,14 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
         public SingleLiveEvent finishRefreshing = new SingleLiveEvent<>();
     }
 
-    //给RecyclerView添加ObservableList
-    public ObservableList<ItemArticleViewModel> itemArticleViewModels = new ObservableArrayList<>();
-    public ItemBinding<ItemArticleViewModel> itemArticleBinding = ItemBinding.of(com.fr.wanandroid.BR.viewModel, R.layout.item_article);
+    public HomeViewModel(@NonNull Application application, ModelRepository repository) {
+        super(application, repository);
+    }
+
+    //viewModel for RecyclerView
+    public final ObservableList<ItemArticleViewModel> itemArticleViewModels = new ObservableArrayList<>();
+    // view layout for RecyclerView
+    public final ItemBinding<ItemArticleViewModel> itemArticleBinding = ItemBinding.of(BR.viewModel, R.layout.item_article);
 
     public void getArticle() {
         if (LOAD_FIRST) {
@@ -104,14 +107,12 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
                             ToastUtils.showShort(getApplication(), "正在加载数据...");
                         } else if (state == TYPE_REFRESH) {
                             showDialog("正在请求数据...");
+                            //清除列表
+                            itemArticleViewModels.clear();
                         }
                     }
                 })
                 .subscribe((Consumer<WanResponse<ArticleListBean>>) response -> {
-                    if (state == TYPE_REFRESH) {
-                        //清除列表
-                        itemArticleViewModels.clear();
-                    }
                     //请求成功
                     if (response.getCode() == 0) {
                         List<ArticleBean> list = response.getData().getDatas();
@@ -127,7 +128,7 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
                 }, throwable -> {
                     //关闭对话框
                     dismissDialog();
-                    //请求刷新完成回收
+//                    请求刷新完成回收
                     uc.finishRefreshing.call();
 
                     //可以自定义Exception类处理异常信息

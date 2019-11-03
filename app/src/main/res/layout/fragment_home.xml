@@ -32,10 +32,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}"
                 binding:itemBinding="@{viewModel.itemArticleBinding}"
                 binding:items="@{viewModel.itemArticleViewModels}"
-                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </FrameLayout>

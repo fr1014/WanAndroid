@@ -1,7 +1,11 @@
 package com.fr.wanandroid.main.ui.knowledge.vm;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import androidx.databinding.ObservableField;
 import androidx.navigation.NavController;
@@ -10,6 +14,7 @@ import androidx.navigation.Navigation;
 import com.fr.mvvm.base.ItemViewModel;
 import com.fr.mvvm.binding.command.BindingCommand;
 import com.fr.mvvm.binding.command.BindingConsumer;
+import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.main.entity.ChapterBean;
 
@@ -41,13 +46,31 @@ public class ItemKnowledgeViewModel extends ItemViewModel<KnowledgeViewModel> {
         return sb.toString();
     }
 
+    private static final String TAG = "ItemKnowledgeViewModel";
     public BindingCommand<View> clickToItemCommand = new BindingCommand<View>(new BindingConsumer<View>() {
         @Override
         public void call(View view) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("entity",entity.get());
+            if (viewModel.itemChapterBeans != null) {
+                viewModel.itemChapterBeans.clear();
+            }
+            for (ChapterBean bean : entity.get().getChildren()) {
+                ItemKnowledgeViewModel itemKnowledgeViewModel = new ItemKnowledgeViewModel(viewModel,bean);
+                viewModel.itemChapterBeans.add(itemKnowledgeViewModel);
+            }
             NavController controller = Navigation.findNavController(view);
-            controller.navigate(R.id.action_knowledgeFragment_to_listKnowledgeFragment,bundle);
+            controller.navigate(R.id.action_knowledgeFragment_to_itemChapterBeanFragment);
+        }
+    });
+
+    public BindingCommand<View> clickToListCommand = new BindingCommand<View>(new BindingConsumer<View>() {
+        @Override
+        public void call(View view) {
+            Bundle bundle = new Bundle();
+            if (entity !=null){
+                bundle.putParcelable("entity",entity.get());
+            }
+            NavController controller = Navigation.findNavController(view);
+            controller.navigate(R.id.action_itemChapterBeanFragment_to_listKnowledgeFragment,bundle);
         }
     });
 

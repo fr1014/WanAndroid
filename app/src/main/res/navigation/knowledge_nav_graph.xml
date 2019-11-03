@@ -11,8 +11,8 @@
         android:label="KnowledgeFragment"
         tools:layout="@layout/fragment_knowledge">
         <action
-            android:id="@+id/action_knowledgeFragment_to_listKnowledgeFragment"
-            app:destination="@id/listKnowledgeFragment" />
+            android:id="@+id/action_knowledgeFragment_to_itemChapterBeanFragment"
+            app:destination="@id/itemChapterBeanFragment" />
     </fragment>
     <fragment
         android:id="@+id/listKnowledgeFragment"
@@ -27,4 +27,13 @@
         android:id="@+id/webViewFragment"
         android:name="com.fr.wanandroid.main.ui.main.fragment.WebViewFragment"
         android:label="WebViewFragment" />
+    <fragment
+        android:id="@+id/itemChapterBeanFragment"
+        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.ItemChapterBeanFragment"
+        android:label="rv_knowledge_select"
+        tools:layout="@layout/rv_knowledge_select" >
+        <action
+            android:id="@+id/action_itemChapterBeanFragment_to_listKnowledgeFragment"
+            app:destination="@id/listKnowledgeFragment" />
+    </fragment>
 </navigation>

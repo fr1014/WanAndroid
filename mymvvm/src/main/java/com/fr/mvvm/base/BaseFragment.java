@@ -23,9 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
-
-import static com.fr.mvvm.base.BaseViewModel.*;
-
+import com.fr.mvvm.base.BaseViewModel.ParameterFiled;
 
 /**
  * 创建时间：2019/10/9
@@ -77,7 +75,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
                 //如果没有指定泛型参数，则默认使用BaseViewModel
                 modelClass = BaseViewModel.class;
             }
-            viewModel = createViewModel(this, modelClass);
+            viewModel = (VM) createViewModel(this, modelClass);
         }
         binding.setVariable(viewModelId, viewModel);
 
