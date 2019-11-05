@@ -6,34 +6,27 @@
 
         <variable
             name="viewModel"
-            type="com.fr.wanandroid.main.ui.knowledge.vm.ItemKnowledgeViewModel" />
+            type="com.fr.wanandroid.ui.knowledge.vm.ItemKnowledgeViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         binding:cardCornerRadius="@dimen/card_corner_radius"
         binding:cardElevation="@dimen/card_elevation"
         binding:cardPreventCornerOverlap="true"
         binding:cardUseCompatPadding="true"
-        binding:contentPadding="@dimen/content_padding">
+        binding:contentPadding="@dimen/content_padding"
+        binding:onClickCommand="@{viewModel.clickToListCommand}">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            binding:onClickCommand="@{viewModel.clickToListCommand}">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.entity.name}"
-                android:textSize="@dimen/sp_24"
-                binding:layout_constraintBottom_toBottomOf="parent"
-                binding:layout_constraintEnd_toEndOf="parent"
-                binding:layout_constraintStart_toStartOf="parent"
-                binding:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="@{viewModel.entity.name}"
+            android:textSize="@dimen/sp_16"
+            binding:layout_constraintBottom_toBottomOf="parent"
+            binding:layout_constraintEnd_toEndOf="parent"
+            binding:layout_constraintStart_toStartOf="parent"
+            binding:layout_constraintTop_toTopOf="parent" />
     </androidx.cardview.widget.CardView>
 </layout>

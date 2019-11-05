@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="com.fr.wanandroid.ui.wxarticle.vm.ItemWxViewModel" />
+
+        <variable
+            name="itemViewModel"
+            type="ItemWxViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:onClickCommand="@{itemViewModel.onClickCommand}"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardPreventCornerOverlap="true"
+        app:contentPadding="@dimen/content_padding"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{itemViewModel.entity.name}" />
+    </androidx.cardview.widget.CardView>
+</layout>

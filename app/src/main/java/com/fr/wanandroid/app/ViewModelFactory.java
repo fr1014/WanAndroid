@@ -7,10 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.fr.wanandroid.main.model.ModelRepository;
-import com.fr.wanandroid.main.ui.home.vm.HomeViewModel;
-import com.fr.wanandroid.main.ui.knowledge.vm.KnowledgeViewModel;
-import com.fr.wanandroid.main.ui.main.vm.MainViewModel;
+import com.fr.wanandroid.model.ModelRepository;
 
 import java.lang.reflect.InvocationTargetException;
 

@@ -29,6 +29,10 @@ public class FRWebView extends WebView implements LifecycleObserver {
     private WebView mWebView;
     private Context mContext;
 
+    public FRWebView(Context context) {
+        super(context);
+    }
+
     public FRWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         

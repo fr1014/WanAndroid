@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.fr.wanandroid.ui.wxarticle.vm.WxViewModel" />
+
+        <variable
+            name="viewModel"
+            type="WxViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}"
+            app:itemBinding="@{viewModel.wxArticleItemBinding}"
+            app:items="@{viewModel.wxArticleObservableList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".ui.wxarticle.fragment.WxArticleFragment" />
+    </LinearLayout>
+</layout>

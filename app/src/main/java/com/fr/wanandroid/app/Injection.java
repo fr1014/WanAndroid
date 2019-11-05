@@ -2,11 +2,11 @@ package com.fr.wanandroid.app;
 
 import com.fr.mvvm.http.RetrofitManager;
 import com.fr.wanandroid.http.api.WanApiService;
-import com.fr.wanandroid.main.model.ModelRepository;
-import com.fr.wanandroid.main.model.http.HttpDataSource;
-import com.fr.wanandroid.main.model.http.HttpDataSourceImpl;
-import com.fr.wanandroid.main.model.local.LocalDataSource;
-import com.fr.wanandroid.main.model.local.LocalDataSourceImpl;
+import com.fr.wanandroid.model.ModelRepository;
+import com.fr.wanandroid.model.http.HttpDataSource;
+import com.fr.wanandroid.model.http.HttpDataSourceImpl;
+import com.fr.wanandroid.model.local.LocalDataSource;
+import com.fr.wanandroid.model.local.LocalDataSourceImpl;
 
 /**
  * 注入全局的数据仓库，可以考虑使用Dagger2

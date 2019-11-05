@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.fr.wanandroid.ui.wxarticle.vm.WxViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.fr.wanandroid.ui.wxarticle.vm.WxViewModel" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        binding:itemBinding="@{viewModel.wxChapterItemBinding}"
+        binding:items="@{viewModel.wxChapterObservableList}"
+        binding:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        binding:spanCount="2">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</layout>

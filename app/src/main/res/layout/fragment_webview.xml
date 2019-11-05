@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.fr.wanandroid.main.ui.main.vm.DetailViewModel" />
+            type="com.fr.wanandroid.ui.main.vm.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

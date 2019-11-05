@@ -3,21 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/knowledge"
+    android:label="知识体系"
     app:startDestination="@id/knowledgeFragment">
 
     <fragment
         android:id="@+id/knowledgeFragment"
-        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.KnowledgeFragment"
-        android:label="KnowledgeFragment"
+        android:name="com.fr.wanandroid.ui.knowledge.fragment.KnowledgeFragment"
+        android:label="知识体系"
         tools:layout="@layout/fragment_knowledge">
         <action
             android:id="@+id/action_knowledgeFragment_to_itemChapterBeanFragment"
             app:destination="@id/itemChapterBeanFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/itemChapterBeanFragment"
+        android:name="com.fr.wanandroid.ui.knowledge.fragment.ItemChapterBeanFragment"
+        android:label="分类"
+        tools:layout="@layout/rv_knowledge_select">
+        <action
+            android:id="@+id/action_itemChapterBeanFragment_to_listKnowledgeFragment"
+            app:destination="@id/listKnowledgeFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/listKnowledgeFragment"
-        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.ListKnowledgeFragment"
-        android:label="ListKnowledgeFragment"
+        android:name="com.fr.wanandroid.ui.knowledge.fragment.ListKnowledgeFragment"
+        android:label="文章"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_listKnowledgeFragment_to_webViewFragment"
@@ -25,15 +37,6 @@
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.fr.wanandroid.main.ui.main.fragment.WebViewFragment"
-        android:label="WebViewFragment" />
-    <fragment
-        android:id="@+id/itemChapterBeanFragment"
-        android:name="com.fr.wanandroid.main.ui.knowledge.fragment.ItemChapterBeanFragment"
-        android:label="rv_knowledge_select"
-        tools:layout="@layout/rv_knowledge_select" >
-        <action
-            android:id="@+id/action_itemChapterBeanFragment_to_listKnowledgeFragment"
-            app:destination="@id/listKnowledgeFragment" />
-    </fragment>
+        android:name="com.fr.wanandroid.ui.main.fragment.WebViewFragment"
+        android:label="WebView" />
 </navigation>

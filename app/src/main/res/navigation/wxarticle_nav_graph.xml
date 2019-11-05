@@ -3,11 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wxarticle"
-    app:startDestination="@id/articleFragment">
-
+    android:label="公众号"
+    app:startDestination="@id/wxChapterFragment">
     <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.fr.wanandroid.main.ui.wxarticle.fragment.ArticleFragment"
-        android:label="ArticleFragment"
-        tools:layout="@layout/fragment_home"/>
+        android:id="@+id/wxChapterFragment"
+        android:name="com.fr.wanandroid.ui.wxarticle.fragment.WxChapterFragment"
+        android:label="公众号"
+        tools:layout="@layout/fragment_wxchapter">
+        <action
+            android:id="@+id/action_wxChapterFragment_to_wxArticleFragment"
+            app:destination="@id/wxArticleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wxArticleFragment"
+        android:name="com.fr.wanandroid.ui.wxarticle.fragment.WxArticleFragment"
+        android:label="公众号文章"
+        tools:layout="@layout/fragment_wx_article">
+        <action
+            android:id="@+id/action_wxArticleFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.fr.wanandroid.ui.main.fragment.WebViewFragment"
+        android:label="WebView"
+        tools:layout="@layout/fragment_webview"/>
 </navigation>

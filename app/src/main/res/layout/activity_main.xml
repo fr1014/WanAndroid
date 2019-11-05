@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.fr.wanandroid.main.ui.main.vm.MainViewModel" />
+        <import type="com.fr.wanandroid.ui.main.vm.MainViewModel" />
         <variable
             name="viewModel"
-            type="com.fr.wanandroid.main.ui.main.vm.MainViewModel" />
+            type="com.fr.wanandroid.ui.main.vm.MainViewModel" />
     </data>
 
     <RelativeLayout

@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="com.fr.wanandroid.main.ui.main.vm.ItemArticleViewModel" />
+        <import type="com.fr.wanandroid.ui.main.vm.ItemArticleViewModel" />
 
         <variable
             name="viewModel"
-            type="com.fr.wanandroid.main.ui.main.vm.ItemArticleViewModel" />
+            type="ItemArticleViewModel" />
 
     </data>
 

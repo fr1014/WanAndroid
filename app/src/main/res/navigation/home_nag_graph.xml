@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home"
-    app:startDestination="@id/homeFragment">
+    android:label="首页"
+    app:startDestination="@+id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.fr.wanandroid.main.ui.home.fragment.HomeFragment"
-        android:label="HomeFragment"
+        android:name="com.fr.wanandroid.ui.home.fragment.HomeFragment"
+        android:label="首页"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_webViewFragment"
@@ -16,6 +17,6 @@
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"
-        android:name="com.fr.wanandroid.main.ui.main.fragment.WebViewFragment"
-        android:label="WebViewFragment" />
+        android:name="com.fr.wanandroid.ui.main.fragment.WebViewFragment"
+        android:label="WebView" />
 </navigation>
