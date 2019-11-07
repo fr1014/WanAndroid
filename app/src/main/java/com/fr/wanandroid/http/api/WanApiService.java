@@ -20,6 +20,7 @@ public interface WanApiService {
     /**
      * 获取公众号列表
      * 方法：GET
+     * 参数：无
      */
     @GET("wxarticle/chapters/json")
     Observable<WanResponse<List<ChapterBean>>> getWxChapters();
@@ -27,11 +28,21 @@ public interface WanApiService {
     /**
      * 查看某个公众号历史数据
      * 方法：GET
+     * 参数：
+     * 公众号 ID：拼接在 url 中，eg:405
+     * 公众号页码：拼接在url 中，eg:1
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<WanResponse<ArticleListBean>> getWxArticles(@Path("id") int id, @Path("page") int page);
 
-    //在某个公众号中搜索历史文章
+    /**
+     * 在某个公众号中搜索历史文章
+     * 方法：GET
+     * 参数：
+     * k : 字符串，eg:Java
+     * 公众号 ID：拼接在 url 中，eg:405
+     * 公众号页码：拼接在url 中，eg:1
+     */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<WanResponse<ArticleListBean>> getWxArticleForAuthor(@Path("id") int id, @Path("page") int page, @Query("k") String message);
 
@@ -44,7 +55,9 @@ public interface WanApiService {
     Observable<WanResponse<ArticleListBean>> getHomeArticles(@Path("page") int page);
 
     /**
-     * 体系数据
+     * 知识体系数据（分类）
+     * 方法：GET
+     * 参数：无
      */
     @GET("tree/json")
     Observable<WanResponse<List<ChapterBean>>> getKnowledgeChapter();
@@ -59,4 +72,21 @@ public interface WanApiService {
     @GET("article/list/{page}/json")
     Observable<WanResponse<ArticleListBean>> getKnowledgeArticles(@Path("page") int page, @Query("cid") int id);
 
+    /**
+     * 项目分类
+     * 方法：GET
+     * 参数：无
+     */
+    @GET("project/tree/json")
+    Observable<WanResponse<ChapterBean>> getProjectChapters();
+
+    /**
+     * 项目列表数据
+     * 方法：GET
+     * 参数：
+     * cid 分类的id，上面项目分类接口
+     * 页码：拼接在链接中，从1开始。
+     */
+    @GET("project/list/{page}/json")
+    Observable<WanResponse<ArticleListBean>> getProjectArticles(@Path("page") int page, @Query("cid") int id);
 }

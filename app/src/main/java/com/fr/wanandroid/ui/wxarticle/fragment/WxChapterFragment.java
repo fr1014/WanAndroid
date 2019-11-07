@@ -28,8 +28,11 @@ public class WxChapterFragment extends BaseFragment<FragmentWxchapterBinding, Wx
     }
 
     public WxViewModel initViewModel() {
-        ViewModelFactory factory = ViewModelFactory.getInstance((Application) MyApplication.getContext());
-        return ViewModelProviders.of(this,factory).get(WxViewModel.class);
+        if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
+            return ViewModelProviders.of(getActivity(), factory).get(WxViewModel.class);
+        }
+        return null;
     }
 
     @Override

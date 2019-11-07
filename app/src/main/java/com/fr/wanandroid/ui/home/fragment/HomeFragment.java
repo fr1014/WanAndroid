@@ -17,7 +17,7 @@ import com.fr.wanandroid.ui.home.vm.HomeViewModel;
 
 import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel>{
+public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
     @Override
     public void initParam() {
@@ -34,9 +34,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         return BR.viewModel;
     }
 
-     public HomeViewModel initViewModel() {
-        ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
-        return ViewModelProviders.of(getActivity(),factory).get(HomeViewModel.class);
+    @Override
+    public HomeViewModel initViewModel() {
+        if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
+            return ViewModelProviders.of(getActivity(), factory).get(HomeViewModel.class);
+        }
+        return null;
     }
 
     @Override

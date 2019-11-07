@@ -41,8 +41,11 @@ public class KnowledgeFragment extends BaseFragment<FragmentKnowledgeBinding, Kn
     }
 
     public KnowledgeViewModel initViewModel() {
-        ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
-        return ViewModelProviders.of(getActivity(), factory).get(KnowledgeViewModel.class);
+        if (getActivity()!=null){
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
+            return ViewModelProviders.of(getActivity(), factory).get(KnowledgeViewModel.class);
+        }
+        return null;
     }
 
     @Override

@@ -17,11 +17,12 @@ import com.fr.wanandroid.ui.wxarticle.vm.WxViewModel;
 
 public class WxArticleFragment extends BaseFragment<FragmentWxArticleBinding, WxViewModel> {
 
-    ChapterBean bean = null;
+    private ChapterBean bean = null;
+
     @Override
     public void initParam() {
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             bean = bundle.getParcelable("entity");
         }
     }
@@ -38,13 +39,16 @@ public class WxArticleFragment extends BaseFragment<FragmentWxArticleBinding, Wx
 
     @Override
     public WxViewModel initViewModel() {
-        ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
-        return ViewModelProviders.of(getActivity(),factory).get(WxViewModel.class);
+        if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
+            return ViewModelProviders.of(getActivity(), factory).get(WxViewModel.class);
+        }
+        return null;
     }
 
     @Override
     public void initData() {
-        if (bean!=null){
+        if (bean != null) {
             viewModel.getWxArticles(bean.getId());
         }
     }
