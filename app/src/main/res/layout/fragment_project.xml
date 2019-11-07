@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.fr.wanandroid.ui.project.vm.ProjectViewModel"
+        <import type="com.fr.wanandroid.ui.project.vm.ProjectViewModel"/>
         <variable
             name="viewModel"
             type="ProjectViewModel" />
