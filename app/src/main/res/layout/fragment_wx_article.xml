@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -18,17 +18,23 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/twinklingRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}"
-            app:itemBinding="@{viewModel.wxArticleItemBinding}"
-            app:items="@{viewModel.wxArticleObservableList}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:context=".ui.wxarticle.fragment.WxArticleFragment" />
+            android:layout_height="match_parent"
+            binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}"
+            binding:onRefreshCommand="@{viewModel.onRefreshCommand}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                binding:itemBinding="@{viewModel.wxArticleItemBinding}"
+                binding:items="@{viewModel.wxArticleObservableList}"
+                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:context=".ui.wxarticle.fragment.WxArticleFragment" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
     </LinearLayout>
 </layout>

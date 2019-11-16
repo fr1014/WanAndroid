@@ -10,7 +10,6 @@ import androidx.databinding.ObservableList;
 import com.fr.mvvm.base.BaseViewModel;
 import com.fr.mvvm.binding.command.BindingAction;
 import com.fr.mvvm.binding.command.BindingCommand;
-import com.fr.mvvm.binding.command.BindingConsumer;
 import com.fr.mvvm.bus.event.SingleLiveEvent;
 import com.fr.mvvm.utils.RxUtils;
 import com.fr.mvvm.utils.ToastUtils;
@@ -30,6 +29,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 /**
@@ -41,6 +41,7 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
     private boolean LOAD_KNOWLEDGE_FIRST = true;
     private int page = 0;
     private int id = -1;  //加载类别
+    public BindingRecyclerViewAdapter<ItemKnowledgeViewModel> rvAdapter = new BindingRecyclerViewAdapter<ItemKnowledgeViewModel>();
 
     public KnowledgeViewModel(@NonNull Application application, ModelRepository model) {
         super(application, model);
@@ -52,15 +53,17 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
     public class UIChangeObservable {
         //下拉刷新完成
         public SingleLiveEvent finishRefreshing = new SingleLiveEvent<>();
+        //上拉加载完成
+        public SingleLiveEvent finishLoadMore = new SingleLiveEvent();
     }
 
     //知识体系导航
     public final ObservableList<ItemKnowledgeViewModel> itemKnowledgeViewModels = new ObservableArrayList<>();
-    public final ItemBinding<ItemKnowledgeViewModel> viewModelItemBinding = ItemBinding.of(BR.viewModel, R.layout.item_knowledge_chapter);
+    public final ItemBinding<ItemKnowledgeViewModel> viewModelItemBinding = ItemBinding.of(BR.viewModel, R.layout.item_knowledge);
 
-    //knowledge_select列表
+    //knowledge_chapter列表
     public final ObservableList<ItemKnowledgeViewModel> itemChapterBeans = new ObservableArrayList<>();
-    public final ItemBinding<ItemKnowledgeViewModel> itemChapterBinding = ItemBinding.of(BR.viewModel, R.layout.item_knowledge_select);
+    public final ItemBinding<ItemKnowledgeViewModel> itemChapterBinding = ItemBinding.of(BR.viewModel, R.layout.item_knowledge_chapter);
 
     //下拉刷新
     public BindingCommand refreshCommand = new BindingCommand(new BindingAction() {
@@ -79,7 +82,7 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
 
     @SuppressWarnings("unchecked")
     @SuppressLint("CheckResult")
-    public void knowledgeGet() {
+    private void knowledgeGet() {
         model.getKnowledgeChapter()
                 .compose(RxUtils.applySchedulers())
                 .doOnSubscribe(this)
@@ -98,8 +101,6 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
                                 ItemKnowledgeViewModel itemViewModel = new ItemKnowledgeViewModel(KnowledgeViewModel.this, entity);
                                 itemKnowledgeViewModels.add(itemViewModel);
                             }
-                        } else {
-                            //请求失败
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -126,48 +127,49 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
         @Override
         public void call() {
             page = 0;
-            knowledgeListGet(Constants.TYPE_REFRESH, id);
+            getKnowledgeArticles(Constants.TYPE_REFRESH, id);
         }
     });
 
     //上拉加载
-    public BindingCommand<Integer> onLoadMoreCommand = new BindingCommand<Integer>(new BindingConsumer<Integer>() {
+    public BindingCommand onLoadMoreCommand = new BindingCommand(new BindingAction() {
         @Override
-        public void call(Integer integer) {
-            if (page != integer) {
-                page = integer;
-                knowledgeListGet(Constants.TYPE_LOAD_MORE, id);
-            }
+        public void call() {
+            page++;
+            getKnowledgeArticles(Constants.TYPE_LOAD_MORE, id);
         }
     });
 
-    public void getListKnowledge(int id) {
+    public void getKnowledgeArticles(int id) {
         page = 0;
         if (this.id != id) {
-            knowledgeListGet(Constants.TYPE_REFRESH, id);
+            getKnowledgeArticles(Constants.TYPE_REFRESH, id);
+            this.id = id;
         }
     }
 
     @SuppressWarnings("unchecked")
-    public void knowledgeListGet(final int state, int id) {
+    private void getKnowledgeArticles(final int state, int id) {
         model.getKnowledgeArticles(page, id)
                 .compose(RxUtils.applySchedulers())
                 .doOnSubscribe(this)
                 .subscribe(new Observer<WanResponse<ArticleListBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        if (state == Constants.TYPE_LOAD_MORE) {
-                            ToastUtils.showShort(getApplication(), "正在加载数据...");
-                        } else {
-                            KnowledgeViewModel.this.id = id;
+                        if (state == Constants.TYPE_REFRESH) {
                             showDialog("正在加载中...");
-                            itemArticles.clear();
+                            if (itemArticles.size() != 0) {
+                                itemArticles.clear();
+                            }
                         }
                     }
 
                     @Override
                     public void onNext(WanResponse<ArticleListBean> response) {
                         if (response.getCode() == 0) {
+                            if (state == Constants.TYPE_LOAD_MORE && response.getData().getDatas().size() == 0) {
+                                ToastUtils.showShort(getApplication(), "已经是选中类别的全部文章了");
+                            }
                             for (ArticleBean entity : response.getData().getDatas()) {
                                 ItemArticleViewModel itemArticleViewModel = new ItemArticleViewModel(KnowledgeViewModel.this, entity);
                                 itemArticles.add(itemArticleViewModel);
@@ -177,14 +179,22 @@ public class KnowledgeViewModel extends BaseViewModel<ModelRepository> {
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
-                        uc.finishRefreshing.call();
+                        if (state == Constants.TYPE_REFRESH) {
+                            dismissDialog();
+                            uc.finishRefreshing.call();
+                        } else {
+                            uc.finishLoadMore.call();
+                        }
                     }
 
                     @Override
                     public void onComplete() {
-                        dismissDialog();
-                        uc.finishRefreshing.call();
+                        if (state == Constants.TYPE_REFRESH) {
+                            dismissDialog();
+                            uc.finishRefreshing.call();
+                        } else {
+                            uc.finishLoadMore.call();
+                        }
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.fr.mvvm.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
+
 import com.fr.mvvm.base.BaseViewModel.ParameterFiled;
 
 /**
@@ -36,15 +38,19 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     private int viewModelId;
     private MaterialDialog dialog;
 
+    private static final String TAG = "BaseFragment";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "------onCreate: " + viewModel);
         initParam();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "------onCreateView: "+viewModel);
         binding = DataBindingUtil.inflate(inflater, initContentView(inflater, container, savedInstanceState), container, false);
         return binding.getRoot();
     }
@@ -52,6 +58,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "------onViewCreated: " + viewModel);
         //私有的初始化DataBinding和ViewModel
         initViewDataBinding();
         //私有的ViewModel与View的锲约事件回调逻辑
@@ -62,7 +69,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         initViewObservable();
     }
 
-    private static final String TAG = "BaseFragment";
     private void initViewDataBinding() {
         viewModelId = initVariableId();
         viewModel = initViewModel();
@@ -192,13 +198,51 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d(TAG, "------onViewStateRestored: " + viewModel);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "------onStart: " + viewModel);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "------onResume: " + viewModel);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "------onPause: " + viewModel);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "------onStop: " + viewModel);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "------onDetach: " + viewModel);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "------onDestroy: " + viewModel);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.d(TAG, "------onDestroyView: " + viewModel);
         if (binding != null) {
             binding.unbind();
         }

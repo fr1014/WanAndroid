@@ -22,11 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/twinklingRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            binding:onRefreshCommand="@{viewModel.onRefreshCommand}">
+            binding:onRefreshCommand="@{viewModel.onRefreshCommand}"
+            binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -34,9 +35,8 @@
                 android:orientation="vertical"
                 binding:itemBinding="@{viewModel.itemBinding}"
                 binding:items="@{viewModel.itemArticles}"
-                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
     </FrameLayout>
 </layout>

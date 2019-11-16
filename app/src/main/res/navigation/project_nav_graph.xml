@@ -8,7 +8,26 @@
 
     <fragment
         android:id="@+id/projectFragment"
-        android:name="com.fr.wanandroid.ui.project.fragment.ProjectFragment"
+        android:name="com.fr.wanandroid.ui.project.fragment.ChapterProjectFragment"
         android:label="项目"
-        tools:layout="@layout/fragment_project" />
+        tools:layout="@layout/fragment_project">
+        <action
+            android:id="@+id/action_projectFragment_to_articleProjectFragment"
+            app:destination="@id/articleProjectFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articleProjectFragment"
+        android:name="com.fr.wanandroid.ui.project.fragment.ArticleProjectFragment"
+        android:label="ArticleProjectFragment">
+        <action
+            android:id="@+id/action_articleProjectFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.fr.wanandroid.ui.main.fragment.WebViewFragment"
+        android:label="WebView" />
+
 </navigation>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.fr.wanandroid.ui.project.vm.ProjectViewModel" />
+        <variable
+            name="viewModel"
+            type="ProjectViewModel" />
+    </data>
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/twinklingRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        binding:onLoadMoreCommand="@{viewModel.onLoadCommand}"
+        binding:onRefreshCommand="@{viewModel.onRefreshCommand}">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter="@{viewModel.rvAdapter}"
+            app:itemBinding="@{viewModel.itemArticleViewModelItemBinding}"
+            app:items="@{viewModel.itemArticleViewModelObservableList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+</layout>

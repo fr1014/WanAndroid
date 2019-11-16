@@ -18,9 +18,9 @@
 
     <fragment
         android:id="@+id/itemChapterBeanFragment"
-        android:name="com.fr.wanandroid.ui.knowledge.fragment.ItemChapterBeanFragment"
+        android:name="com.fr.wanandroid.ui.knowledge.fragment.ChapterKnowledgeFragment"
         android:label="分类"
-        tools:layout="@layout/rv_knowledge_select">
+        tools:layout="@layout/rv_knowledge_chapter">
         <action
             android:id="@+id/action_itemChapterBeanFragment_to_listKnowledgeFragment"
             app:destination="@id/listKnowledgeFragment" />
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/listKnowledgeFragment"
-        android:name="com.fr.wanandroid.ui.knowledge.fragment.ListKnowledgeFragment"
+        android:name="com.fr.wanandroid.ui.knowledge.fragment.ArticleKnowledgeFragment"
         android:label="文章"
         tools:layout="@layout/fragment_home">
         <action

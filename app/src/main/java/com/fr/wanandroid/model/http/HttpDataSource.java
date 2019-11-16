@@ -26,4 +26,8 @@ public interface HttpDataSource {
     Observable<WanResponse<List<ChapterBean>>> getKnowledgeChapter();
     //知识体系下的文章获取
     Observable<WanResponse<ArticleListBean>> getKnowledgeArticles(int page,int id);
+    //项目分类
+    Observable<WanResponse<List<ChapterBean>>> getProjectChapters();
+    //项目列表数据
+    Observable<WanResponse<ArticleListBean>> getProjectArticles(int page,int id);
 }

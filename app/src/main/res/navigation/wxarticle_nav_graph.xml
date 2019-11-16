@@ -9,7 +9,7 @@
         android:id="@+id/wxChapterFragment"
         android:name="com.fr.wanandroid.ui.wxarticle.fragment.WxChapterFragment"
         android:label="公众号"
-        tools:layout="@layout/fragment_wxchapter">
+        tools:layout="@layout/fragment_wx_chapter">
         <action
             android:id="@+id/action_wxChapterFragment_to_wxArticleFragment"
             app:destination="@id/wxArticleFragment" />

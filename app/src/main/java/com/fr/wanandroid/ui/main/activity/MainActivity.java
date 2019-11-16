@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     public MainViewModel initViewModel() {
         ViewModelFactory factory = ViewModelFactory.getInstance(getApplication());
-        return ViewModelProviders.of(this,factory).get(MainViewModel.class);
+        return ViewModelProviders.of(this, factory).get(MainViewModel.class);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             setupBottomNavigationBar();
         }
     }
@@ -69,12 +69,27 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
      * 在首次创建以及恢复状态时调用
      */
     private void setupBottomNavigationBar() {
-        List<Integer> navGraphIds = Arrays.asList(R.navigation.home_nag_graph, R.navigation.knowledge_nav_graph, R.navigation.wxarticle_nav_graph, R.navigation.project_nav_graph);
-        LiveData<NavController> controller = NavigationExtensions.setupWithNavController(binding.navigationView, navGraphIds, getSupportFragmentManager(), R.id.fragment_container_view, getIntent());
+        List<Integer> navGraphIds = Arrays.asList(R.navigation.home_nag_graph,
+                R.navigation.knowledge_nav_graph, R.navigation.wxarticle_nav_graph,
+                R.navigation.project_nav_graph);
+      LiveData<NavController> controller = NavigationExtensions.setupWithNavController(
+                binding.navigationView,
+                navGraphIds,
+                getSupportFragmentManager(),
+                R.id.fragment_container_view,
+                getIntent()
+        );
+//        LiveData<NavController> controller = NavigationExtensionsKt.setupWithNavController(
+//                binding.navigationView,
+//                navGraphIds,
+//                getSupportFragmentManager(),
+//                R.id.fragment_container_view,
+//                getIntent()
+//        );
         controller.observe(this, new Observer<NavController>() {
             @Override
             public void onChanged(NavController navController) {
-                NavigationUI.setupActionBarWithNavController(MainActivity.this,navController);
+                NavigationUI.setupActionBarWithNavController(MainActivity.this, navController);
             }
         });
 
@@ -84,7 +99,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     public boolean onSupportNavigateUp() {
         NavController controller = currentNavController.getValue();
-        if (controller != null){
+        if (controller != null) {
             return controller.navigateUp();
         }
         return false;

@@ -13,17 +13,17 @@ import com.fr.mvvm.base.BaseFragment;
 import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.app.ViewModelFactory;
-import com.fr.wanandroid.databinding.RvKnowledgeSelectBinding;
+import com.fr.wanandroid.databinding.RvKnowledgeChapterBinding;
 import com.fr.wanandroid.ui.knowledge.vm.KnowledgeViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ItemChapterBeanFragment extends BaseFragment<RvKnowledgeSelectBinding, KnowledgeViewModel> {
+public class ChapterKnowledgeFragment extends BaseFragment<RvKnowledgeChapterBinding, KnowledgeViewModel> {
 
     @Override
     protected int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return R.layout.rv_knowledge_select;
+        return R.layout.rv_knowledge_chapter;
     }
 
     @Override

@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 
 /**
  * MVVM的Model层，统一模块的数据仓库，包含网络数据和本地数据（一个应用可以有多个Repository）
- *
+ * <p>
  * 创建时间：2019/10/10
  * 作者：范瑞
  * 博客：https://www.jianshu.com/u/408f3c1b46a9
@@ -28,11 +28,11 @@ public class ModelRepository extends BaseModel implements HttpDataSource, LocalD
         this.mLocalDataSource = mLocalDataSource;
     }
 
-    public static ModelRepository getInstance(HttpDataSource httpDataSource,LocalDataSource localDataSource){
-        if (INSTANCE == null){
-            synchronized (ModelRepository.class){
-                if (INSTANCE == null){
-                    INSTANCE = new ModelRepository(httpDataSource,localDataSource);
+    public static ModelRepository getInstance(HttpDataSource httpDataSource, LocalDataSource localDataSource) {
+        if (INSTANCE == null) {
+            synchronized (ModelRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new ModelRepository(httpDataSource, localDataSource);
                 }
             }
         }
@@ -51,12 +51,12 @@ public class ModelRepository extends BaseModel implements HttpDataSource, LocalD
 
     @Override
     public Observable<WanResponse<ArticleListBean>> getWxArticles(int id, int page) {
-        return mHttpDataSource.getWxArticles(id,page);
+        return mHttpDataSource.getWxArticles(id, page);
     }
 
     @Override
     public Observable<WanResponse<ArticleListBean>> getWxArticleForAuthor(int id, int page, String message) {
-        return mHttpDataSource.getWxArticleForAuthor(id,page,message);
+        return mHttpDataSource.getWxArticleForAuthor(id, page, message);
     }
 
     @Override
@@ -66,6 +66,16 @@ public class ModelRepository extends BaseModel implements HttpDataSource, LocalD
 
     @Override
     public Observable<WanResponse<ArticleListBean>> getKnowledgeArticles(int page, int id) {
-        return mHttpDataSource.getKnowledgeArticles(page,id);
+        return mHttpDataSource.getKnowledgeArticles(page, id);
+    }
+
+    @Override
+    public Observable<WanResponse<List<ChapterBean>>> getProjectChapters() {
+        return mHttpDataSource.getProjectChapters();
+    }
+
+    @Override
+    public Observable<WanResponse<ArticleListBean>> getProjectArticles(int page, int id) {
+        return mHttpDataSource.getProjectArticles(page, id);
     }
 }

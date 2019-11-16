@@ -69,4 +69,9 @@ public class ViewAdapter {
             super.onScrollStateChanged(recyclerView, newState);
         }
     }
+
+    @BindingAdapter({"adapter"})
+    public static void setAdapter(RecyclerView recyclerView, RecyclerView.Adapter adapter){
+        recyclerView.setAdapter(adapter);
+    }
 }

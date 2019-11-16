@@ -1,6 +1,5 @@
 package com.fr.wanandroid.ui.wxarticle.fragment;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,15 +10,14 @@ import com.fr.mvvm.base.BaseFragment;
 import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.app.ViewModelFactory;
-import com.fr.wanandroid.app.MyApplication;
-import com.fr.wanandroid.databinding.FragmentWxchapterBinding;
+import com.fr.wanandroid.databinding.FragmentWxChapterBinding;
 import com.fr.wanandroid.ui.wxarticle.vm.WxViewModel;
 
-public class WxChapterFragment extends BaseFragment<FragmentWxchapterBinding, WxViewModel> {
+public class WxChapterFragment extends BaseFragment<FragmentWxChapterBinding, WxViewModel> {
 
     @Override
     protected int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return R.layout.fragment_wxchapter;
+        return R.layout.fragment_wx_chapter;
     }
 
     @Override

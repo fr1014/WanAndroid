@@ -14,7 +14,7 @@ import com.fr.wanandroid.app.ViewModelFactory;
 import com.fr.wanandroid.databinding.FragmentProjectBinding;
 import com.fr.wanandroid.ui.project.vm.ProjectViewModel;
 
-public class ProjectFragment extends BaseFragment<FragmentProjectBinding, ProjectViewModel> {
+public class ChapterProjectFragment extends BaseFragment<FragmentProjectBinding, ProjectViewModel> {
 
     @Override
     protected int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,5 +33,10 @@ public class ProjectFragment extends BaseFragment<FragmentProjectBinding, Projec
             return ViewModelProviders.of(getActivity(), factory).get(ProjectViewModel.class);
         }
         return null;
+    }
+
+    @Override
+    public void initData() {
+        viewModel.getProjectChapter();
     }
 }

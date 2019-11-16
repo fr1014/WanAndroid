@@ -1,32 +1,40 @@
-package com.fr.wanandroid.ui.home.fragment;
+package com.fr.wanandroid.ui.project.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.fr.mvvm.base.BaseFragment;
 import com.fr.wanandroid.BR;
 import com.fr.wanandroid.R;
 import com.fr.wanandroid.app.ViewModelFactory;
-import com.fr.wanandroid.databinding.FragmentHomeBinding;
-import com.fr.wanandroid.ui.home.vm.HomeViewModel;
+import com.fr.wanandroid.databinding.FragmentProjectArticleBinding;
+import com.fr.wanandroid.entity.ChapterBean;
+import com.fr.wanandroid.ui.project.vm.ProjectViewModel;
 
-import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
+/**
+ * 创建时间：2019/11/8
+ * 作者：范瑞
+ * 博客：https://www.jianshu.com/u/408f3c1b46a9
+ */
+public class ArticleProjectFragment extends BaseFragment<FragmentProjectArticleBinding, ProjectViewModel> {
 
-public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
+    private ChapterBean bean = null;
 
     @Override
     public void initParam() {
-        super.initParam();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            bean = bundle.getParcelable("entity");
+        }
     }
 
     @Override
     protected int initContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return R.layout.fragment_home;
+        return R.layout.fragment_project_article;
     }
 
     @Override
@@ -35,30 +43,27 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
-    public HomeViewModel initViewModel() {
+    public ProjectViewModel initViewModel() {
         if (getActivity() != null) {
             ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
-            return ViewModelProviders.of(getActivity(), factory).get(HomeViewModel.class);
+            return ViewModelProviders.of(getActivity()).get(ProjectViewModel.class);
         }
         return null;
     }
 
     @Override
     public void initData() {
-        //给RecyclerView添加Adapter，请使用自定义的Adapter继承BindingRecyclerViewAdapter，重写onBindBinding方法，里面有你要的Item对应的binding对象。
-        // Adapter属于View层的东西, 不建议定义到ViewModel中绑定，以免内存泄漏
-        //请求网络数据
-        viewModel.getArticle();
+        if (bean != null) {
+            viewModel.getProjectArticle(bean.getId());
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void initViewObservable() {
-        //监听下拉刷新
         viewModel.uc.finishRefreshing.observe(this, new Observer() {
             @Override
             public void onChanged(Object o) {
-                //结束刷新
                 binding.twinklingRefreshLayout.finishRefreshing();
             }
         });
@@ -66,11 +71,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.uc.finishLoadMore.observe(this, new Observer() {
             @Override
             public void onChanged(Object o) {
-                //结束加载
                 binding.twinklingRefreshLayout.finishLoadmore();
             }
         });
     }
-
-
 }

@@ -6,13 +6,6 @@
     <data>
 
         <import type="com.fr.wanandroid.ui.home.vm.HomeViewModel" />
-
-        <import type="me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter" />
-
-        <variable
-            name="adapter"
-            type="BindingRecyclerViewAdapter" />
-
         <variable
             name="viewModel"
             type="HomeViewModel" />
@@ -23,20 +16,22 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.fragment.HomeFragment">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/twinklingRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            binding:onRefreshCommand="@{viewModel.onRefreshCommand}">
+            binding:onRefreshCommand="@{viewModel.onRefreshCommand}"
+            binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                binding:adapter="@{viewModel.rvAdapter}"
                 binding:itemBinding="@{viewModel.itemArticleBinding}"
                 binding:items="@{viewModel.itemArticleViewModels}"
-                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                binding:onLoadMoreCommand="@{viewModel.onLoadMoreCommand}" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                binding:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 
     </FrameLayout>
 </layout>

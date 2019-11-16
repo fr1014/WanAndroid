@@ -4,4 +4,6 @@
     <dimen name="card_corner_radius">15dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="content_padding">40dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="sp_14">14sp</dimen>
 </resources>

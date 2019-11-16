@@ -29,6 +29,7 @@ import java.util.List;
 public final class NavigationExtensions {
 
     private static final String TAG = "NavigationExtensions";
+
     public static LiveData<NavController> setupWithNavController(BottomNavigationView navigationView, List<Integer> navGraphIds, FragmentManager fm, int containerId, Intent intent) {
 
         MutableLiveData<NavController> selectedNavController = new MutableLiveData<>();
@@ -75,8 +76,7 @@ public final class NavigationExtensions {
                         fm.popBackStack(Tag.firstFragmentTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         NavHostFragment selectedFragment = (NavHostFragment) fm.findFragmentByTag(newlySelectedItemTag);
                         //排除第一个fragment标签，因为它始终位于后堆栈中
-                        if (!Tag.firstFragmentTag.equals(newlySelectedItemTag)) {
-                            assert selectedFragment != null;
+                        if (!Tag.firstFragmentTag.equals(newlySelectedItemTag) && selectedFragment != null) {
                             FragmentTransaction transaction = fm.beginTransaction().setCustomAnimations(
                                     R.anim.nav_default_enter_anim,
                                     R.anim.nav_default_exit_anim,
@@ -85,14 +85,12 @@ public final class NavigationExtensions {
                                     .attach(selectedFragment)
                                     .setPrimaryNavigationFragment(selectedFragment);
                             for (int i = 0; i < Tag.graphIdToTagMap.size(); i++) {
-                                int key = Tag.graphIdToTagMap.keyAt(i);
-                                String fragmentTagIter = Tag.graphIdToTagMap.get(key);
-                                if (!fragmentTagIter.equals(newlySelectedItemTag)) {
+                                String fragmentTag = Tag.graphIdToTagMap.get(Tag.graphIdToTagMap.keyAt(i));
+                                if (!fragmentTag.equals(newlySelectedItemTag)) {
                                     Fragment fragment = fm.findFragmentByTag(Tag.firstFragmentTag);
                                     if (fragment != null) {
                                         transaction.detach(fragment);
                                     }
-
                                 }
                             }
                             transaction
@@ -120,13 +118,12 @@ public final class NavigationExtensions {
         setupDeepLinks(navigationView, navGraphIds, fm, containerId, intent);
 
         // Finally, ensure that we update our BottomNavigationView when the back stack changes
-        int finalFirstFragmentGraphId = Tag.firstFragmentGraphId;
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 if (!Tag.isOnFirstFragment) {
                     if (!NavigationExtensions.isOnBackStack(fm, Tag.firstFragmentTag)) {
-                        navigationView.setSelectedItemId(finalFirstFragmentGraphId);
+                        navigationView.setSelectedItemId(Tag.firstFragmentGraphId);
                     }
                 }
 
@@ -176,7 +173,7 @@ public final class NavigationExtensions {
             public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
                 String newlySelectedItemTag = graphIdToTagMap.get(menuItem.getItemId());
                 NavHostFragment selectedFragment = (NavHostFragment) fm.findFragmentByTag(newlySelectedItemTag);
-                if (selectedFragment!=null){
+                if (selectedFragment != null) {
                     NavController navController = selectedFragment.getNavController();
                     // Pop the back stack to the start destination of the current navController graph
                     navController.popBackStack(navController.getGraph().getStartDestination(), false);
@@ -214,7 +211,7 @@ public final class NavigationExtensions {
         int backStackEntryCount = fm.getBackStackEntryCount();
         for (int index = 0; index < backStackEntryCount; index++) {
             String fName = fm.getBackStackEntryAt(index).getName();
-            if (fName!=null&&fName.equals(backStackName)) {
+            if (fName != null && fName.equals(backStackName)) {
                 return true;
             }
         }

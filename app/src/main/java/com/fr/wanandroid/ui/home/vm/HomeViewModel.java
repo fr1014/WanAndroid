@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fr.mvvm.base.BaseViewModel;
 import com.fr.mvvm.binding.command.BindingAction;
@@ -27,6 +28,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
 
 import static com.fr.wanandroid.ui.Constants.TYPE_LOAD_MORE;
@@ -41,6 +43,7 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
 
     private Boolean LOAD_FIRST = true;
     private int page = 0;
+    public BindingRecyclerViewAdapter rvAdapter = new BindingRecyclerViewAdapter();
 
     //界面发生改变的观察者
     public UIChangeObservable uc = new UIChangeObservable();
@@ -48,6 +51,8 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
     public class UIChangeObservable {
         //下拉刷新完成
         public SingleLiveEvent finishRefreshing = new SingleLiveEvent<>();
+        //上拉加载完成
+        public SingleLiveEvent finishLoadMore = new SingleLiveEvent();
     }
 
     public HomeViewModel(@NonNull Application application, ModelRepository repository) {
@@ -76,14 +81,10 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
         }
     });
 
-    /**
-     * 上拉加载
-     */
-    public BindingCommand<Integer> onLoadMoreCommand = new BindingCommand<>(new BindingConsumer<Integer>() {
-        @SuppressLint("CheckResult")
+    public BindingCommand onLoadMoreCommand = new BindingCommand(new BindingAction() {
         @Override
-        public void call(Integer integer) {
-            page = integer;
+        public void call() {
+            page++;
             articleGet(TYPE_LOAD_MORE);
         }
     });
@@ -93,7 +94,7 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
      */
     @SuppressWarnings("unchecked")
     @SuppressLint("CheckResult")
-    protected void articleGet(final int state) {
+    private void articleGet(final int state) {
 
         model.getHomeArticle(page)
                 .compose(RxUtils.applySchedulers())//线程调度
@@ -121,23 +122,29 @@ public class HomeViewModel extends BaseViewModel<ModelRepository> {
                             //双向绑定动态添加Item
                             itemArticleViewModels.add(itemViewModel);
                         }
-                    } else {
-                        //请求失败
-                        //TODO
                     }
                 }, throwable -> {
-                    //关闭对话框
-                    dismissDialog();
-//                    请求刷新完成回收
-                    uc.finishRefreshing.call();
+                    if (state == TYPE_REFRESH) {
+                        //关闭对话框
+                        dismissDialog();
+                        //请求刷新完成回收
+                        uc.finishRefreshing.call();
+                    } else {
+                        //加载完成回收
+                        uc.finishLoadMore.call();
+                    }
 
                     //可以自定义Exception类处理异常信息
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        //关闭对话框
-                        dismissDialog();
-                        uc.finishRefreshing.call();
+                        if (state == TYPE_REFRESH) {
+                            //关闭对话框
+                            dismissDialog();
+                            uc.finishRefreshing.call();
+                        } else {
+                            uc.finishLoadMore.call();
+                        }
                     }
                 });
     }

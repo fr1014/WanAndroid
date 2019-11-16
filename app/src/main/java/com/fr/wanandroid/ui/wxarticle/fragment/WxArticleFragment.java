@@ -2,6 +2,7 @@ package com.fr.wanandroid.ui.wxarticle.fragment;
 
 import android.os.Bundle;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -51,5 +52,23 @@ public class WxArticleFragment extends BaseFragment<FragmentWxArticleBinding, Wx
         if (bean != null) {
             viewModel.getWxArticles(bean.getId());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initViewObservable() {
+        viewModel.uc.finishRefreshing.observe(this, new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                binding.twinklingRefreshLayout.finishRefreshing();
+            }
+        });
+
+        viewModel.uc.finishLoadMore.observe(this, new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                binding.twinklingRefreshLayout.finishLoadmore();
+            }
+        });
     }
 }

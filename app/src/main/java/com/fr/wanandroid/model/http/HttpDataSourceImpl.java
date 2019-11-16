@@ -63,4 +63,14 @@ public class HttpDataSourceImpl implements HttpDataSource {
         return apiService.getKnowledgeArticles(page,id);
     }
 
+    @Override
+    public Observable<WanResponse<List<ChapterBean>>> getProjectChapters() {
+        return apiService.getProjectChapters();
+    }
+
+    @Override
+    public Observable<WanResponse<ArticleListBean>> getProjectArticles(int page, int id) {
+        return apiService.getProjectArticles(page,id);
+    }
+
 }

@@ -7,8 +7,9 @@ import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableList;
 
 import com.fr.mvvm.base.BaseViewModel;
+import com.fr.mvvm.binding.command.BindingAction;
 import com.fr.mvvm.binding.command.BindingCommand;
-import com.fr.mvvm.binding.command.BindingConsumer;
+import com.fr.mvvm.bus.event.SingleLiveEvent;
 import com.fr.mvvm.utils.RxUtils;
 import com.fr.mvvm.utils.ToastUtils;
 import com.fr.wanandroid.BR;
@@ -36,6 +37,12 @@ public class WxViewModel extends BaseViewModel<ModelRepository> {
     private boolean IS_FIRST = true;
     private int id = -1;
     private int page = 0;
+    public UIChangeObservable uc = new UIChangeObservable();
+
+    public class UIChangeObservable {
+        public SingleLiveEvent finishRefreshing = new SingleLiveEvent<>();
+        public SingleLiveEvent finishLoadMore = new SingleLiveEvent<>();
+    }
 
     public WxViewModel(@NonNull Application application, ModelRepository model) {
         super(application, model);
@@ -87,39 +94,46 @@ public class WxViewModel extends BaseViewModel<ModelRepository> {
 
     }
 
-    public BindingCommand<Integer> onLoadMoreCommand = new BindingCommand<Integer>(new BindingConsumer<Integer>() {
-        @Override
-        public void call(Integer integer) {
-            if (integer != page){
-                page = integer;
-                getWxArticles(Constants.TYPE_LOAD_MORE,id,page);
-            }
-        }
-    });
-
     public ObservableList<ItemArticleViewModel> wxArticleObservableList = new ObservableArrayList<>();
     public ItemBinding<ItemArticleViewModel> wxArticleItemBinding = ItemBinding.of(BR.viewModel, R.layout.item_article);
 
     public void getWxArticles(int id) {
         if (this.id != id) {
-            getWxArticles(Constants.TYPE_REFRESH,id, 0);
+            getWxArticles(Constants.TYPE_REFRESH, id, 0);
             this.id = id;
         }
     }
 
+    public BindingCommand onRefreshCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            getWxArticles(Constants.TYPE_REFRESH, id, 0);
+        }
+    });
+
+    public BindingCommand onLoadMoreCommand = new BindingCommand(new BindingAction() {
+        @Override
+        public void call() {
+            page++;
+            getWxArticles(Constants.TYPE_LOAD_MORE, id, page);
+        }
+    });
+
     @SuppressWarnings("unchecked")
-    public void getWxArticles(final int state,int id, int page) {
+    private void getWxArticles(final int state, int id, int page) {
         model.getWxArticles(id, page)
                 .compose(RxUtils.applySchedulers())
                 .doOnSubscribe(this)
                 .subscribe(new Observer<WanResponse<ArticleListBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        if (state == Constants.TYPE_REFRESH){
+                        if (state == Constants.TYPE_REFRESH) {
                             showDialog("正在请求数据...");
-                            wxArticleObservableList.clear();
-                        }else {
-                            ToastUtils.showShort(getApplication(),"正在加载数据...");
+                            if (wxArticleObservableList.size() != 0) {
+                                wxArticleObservableList.clear();
+                            }
+                        } else {
+                            ToastUtils.showShort(getApplication(), "正在加载数据...");
                         }
                     }
 
@@ -135,12 +149,22 @@ public class WxViewModel extends BaseViewModel<ModelRepository> {
 
                     @Override
                     public void onError(Throwable e) {
-                        dismissDialog();
+                        if (state == Constants.TYPE_REFRESH) {
+                            uc.finishRefreshing.call();
+                            dismissDialog();
+                        } else {
+                            uc.finishLoadMore.call();
+                        }
                     }
 
                     @Override
                     public void onComplete() {
-                        dismissDialog();
+                        if (state == Constants.TYPE_REFRESH) {
+                            uc.finishRefreshing.call();
+                            dismissDialog();
+                        } else {
+                            uc.finishLoadMore.call();
+                        }
                     }
                 });
     }

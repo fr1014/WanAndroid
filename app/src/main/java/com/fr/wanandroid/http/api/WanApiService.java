@@ -78,7 +78,7 @@ public interface WanApiService {
      * 参数：无
      */
     @GET("project/tree/json")
-    Observable<WanResponse<ChapterBean>> getProjectChapters();
+    Observable<WanResponse<List<ChapterBean>>> getProjectChapters();
 
     /**
      * 项目列表数据

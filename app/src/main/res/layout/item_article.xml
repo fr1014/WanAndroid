@@ -94,7 +94,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@{String.valueOf(viewModel.entity.publishTime)}"
+                android:text="@{String.valueOf(viewModel.entity.niceShareDate)}"
                 binding:layout_constraintBottom_toBottomOf="parent"
                 binding:layout_constraintStart_toStartOf="@+id/guideline2"
                 binding:layout_constraintTop_toBottomOf="@+id/tv_title" />
