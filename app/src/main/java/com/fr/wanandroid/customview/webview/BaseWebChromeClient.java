@@ -8,14 +8,35 @@ package com.fr.wanandroid.customview.webview;
 
 import android.graphics.Bitmap;
 import android.os.Message;
+import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
 /**
  * 实现一个基础的 WebChromeClient ，如果有更多的需要，直接继承它
  */
 public class BaseWebChromeClient extends WebChromeClient {
+    private ProgressBar mProgressBar;
+
+    public BaseWebChromeClient(ProgressBar progressBar){
+        this.mProgressBar = progressBar;
+    }
+
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        if (newProgress == 100){
+            mProgressBar.setVisibility(View.GONE);
+        }else {
+            if (mProgressBar.getVisibility() == View.GONE)
+                mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setProgress(newProgress);
+        }
+        super.onProgressChanged(view,newProgress);
+    }
+
+
 
     //=========HTML5定位=========
     //需要先加入权限

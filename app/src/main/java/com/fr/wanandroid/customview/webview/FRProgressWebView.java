@@ -1,21 +1,20 @@
 package com.fr.wanandroid.customview.webview;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
-import android.webkit.GeolocationPermissions;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.fr.mvvm.http.utils.NetStatusUtil;
+import com.fr.wanandroid.R;
 
 import java.io.File;
 
@@ -24,22 +23,31 @@ import java.io.File;
  * 作者：范瑞
  * 博客：https://www.jianshu.com/u/408f3c1b46a9
  */
-public class FRWebView extends WebView implements LifecycleObserver {
+public class FRProgressWebView extends WebView implements LifecycleObserver {
 
     private WebView mWebView;
     private Context mContext;
+    private ProgressBar mProgressBar;
 
-    public FRWebView(Context context) {
+    public FRProgressWebView(Context context) {
         super(context);
     }
 
-    public FRWebView(Context context, AttributeSet attrs) {
+    public FRProgressWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
-        this.mWebView = this;
         this.mContext = context;
-        
+        this.mWebView = this;
+
+        initProgressBar();
+
         initSetting();
+    }
+
+    private void initProgressBar() {
+        mProgressBar = new ProgressBar(mContext, null,android.R.style.Widget_Material_ProgressBar_Horizontal);
+        mProgressBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8));
+        mProgressBar.setProgressDrawable(mContext.getDrawable(R.drawable.web_progressbar_status));
+        addView(mProgressBar);
     }
 
     //初始化操作
@@ -64,8 +72,17 @@ public class FRWebView extends WebView implements LifecycleObserver {
         saveDate(webSettings);
         newWin(webSettings);
 
-        setWebChromeClient(new BaseWebChromeClient());
+        setWebChromeClient(new BaseWebChromeClient(mProgressBar));
         setWebViewClient(new BaseWebViewClient(mContext));
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        ViewGroup.LayoutParams lp = mProgressBar.getLayoutParams();
+        lp.width = l;
+        lp.height = t;
+        mProgressBar.setLayoutParams(lp);
+        super.onScrollChanged(l, t, oldl, oldt);
     }
 
     /**
